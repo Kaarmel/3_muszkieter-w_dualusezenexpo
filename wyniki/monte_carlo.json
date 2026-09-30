@@ -1,0 +1,57 @@
+{
+  "liczba_scenariuszy": 40,
+  "zalozenia": {
+    "predkosc_ms": 12.0,
+    "uzyteczne_min": 22.0,
+    "wymiana_min": 3.0,
+    "stacje": [
+      "Przysłup",
+      "Terka",
+      "Tyskowa",
+      "Wetlina"
+    ],
+    "pokrycie_km": [
+      118.8,
+      119.2
+    ],
+    "klasa_pojazdu": "ciezarowy",
+    "P_ZERWANY_MOST": 0.1,
+    "P_ZALANY_PRZY_POTOKU": 0.03,
+    "obserwacja": "bezbłędna (błąd modelu AI raportowany osobno)"
+  },
+  "odcinki_przy_ciekach": 359,
+  "km_przy_ciekach": 119.2,
+  "wyniki": {
+    "4_drony": {
+      "mediana_min_do_90proc": {
+        "A": 133,
+        "B": 92
+      },
+      "mediana_min_do_100proc": {
+        "A": 148,
+        "B": 112
+      },
+      "sredni_proc_wsi_ustalonych_po_60_min": {
+        "A": 56,
+        "B": 75
+      },
+      "wykres": "wyniki/monte_carlo.png"
+    },
+    "1_dron": {
+      "mediana_min_do_90proc": {
+        "A": 588,
+        "B": 351
+      },
+      "mediana_min_do_100proc": {
+        "A": 609,
+        "B": 389
+      },
+      "sredni_proc_wsi_ustalonych_po_60_min": {
+        "A": 22,
+        "B": 11
+      },
+      "wykres": "wyniki/monte_carlo_1dron.png"
+    }
+  },
+  "symulowane": true
+}

@@ -1,0 +1,7 @@
+# LADI v2 — zdjęcia referencyjne z powietrza
+
+W `obrazy/` jest 1500 różnych zdjęć lotniczych katastrof z [LADI v2](https://huggingface.co/datasets/MITLL/LADI-v2-dataset), wersja `v2a_resized`, podziały `test` (1046 obrazów) i `validation` (454 obrazy), rewizja `5f2dbfe8c466d32edafd1bab847ec5252309acdb`. Wśród nich 1143 mają etykietę obecności drogi, a 161 etykietę obecności zalania. Każdy wiersz `manifest.csv` wskazuje część źródłową i numer obrazu, oryginalną oraz lokalną sumę SHA-256 i etykiety. `python dane/ladi/import_ladi.py --check` sprawdza liczbę plików oraz sumy.
+
+Zdjęcia zebrali członkowie Civil Air Patrol; zbiór LADI v2 opracowali Samuel Scheele, Katherine Picchione i Jeffrey Liu (MIT Lincoln Laboratory). **Dane: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).** Cytowanie: Scheele, Picchione, Liu, „LADI v2: Multi-label Dataset and Classifiers for Low-Altitude Disaster Imagery”, 2024, [arXiv:2406.02780](https://arxiv.org/abs/2406.02780). W tej kopii obrazy pomniejszono do maksymalnie 640 px, ponownie zapisano jako JPEG i usunięto metadane EXIF.
+
+To **biblioteka źródłowa do przeglądania**, dodana bez treningu i bez testowania modelu. Nie wpływa na metryki FloodNet w README projektu. Etykiety `roads_any` i `flooding_any` oznaczają obecność drogi oraz zalania gdzieś na zdjęciu; ich jednoczesna wartość `1` **nie oznacza**, że zalana jest właśnie droga. Zbiór nie zawiera masek przejezdności odcinków.

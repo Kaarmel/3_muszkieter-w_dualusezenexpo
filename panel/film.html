@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroPass — analiza filmu z drona</title>
+<style>
+  :root { --tlo:#f4f5f7; --karta:#fff; --tekst:#16181d; --szary:#5b6270; --linia:#d9dce2; --pilne:#c62828; --ok:#15803d; --info:#1d4ed8; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--tlo); color:var(--tekst); }
+  header { display:flex; align-items:center; gap:14px; padding:8px 14px; background:#111827; color:#fff; }
+  header h1 { font-size:16px; margin:0; font-weight:650; }
+  header a { color:#8ed9c4; }
+  main { max-width:1200px; margin:0 auto; padding:14px; }
+  .karta { background:var(--karta); border:1px solid var(--linia); border-radius:8px; padding:12px 14px; margin-bottom:12px; }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--szary); margin:0 0 8px; }
+  form { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  input[type=text] { font:inherit; padding:5px 8px; border:1px solid var(--linia); border-radius:6px; flex:1; min-width:280px; }
+  button { font:inherit; padding:5px 12px; border-radius:6px; border:1px solid var(--ok); background:var(--ok); color:#fff; cursor:pointer; }
+  button:disabled { opacity:.45; cursor:default; }
+  progress { width:100%; height:14px; }
+  .podp { color:var(--szary); font-size:12px; }
+  .blad { color:var(--pilne); white-space:pre-wrap; }
+  video { width:100%; border-radius:6px; background:#000; }
+  .kadry { display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:8px; }
+  .kadry img { width:100%; border-radius:4px; display:block; }
+  .pasek { display:flex; height:10px; border-radius:5px; overflow:hidden; margin:6px 0; }
+  .statystyki { display:flex; flex-wrap:wrap; gap:6px 18px; margin:6px 0; }
+</style>
+</head>
+<body>
+<header>
+  <h1>AeroPass · analiza filmu z drona (offline, po locie)</h1>
+  <a href="index.html">← panel stanowiska kierowania</a>
+</header>
+<main>
+  <div class="karta">
+    <h2>Wgraj film</h2>
+    <form id="formularz">
+      <input type="file" id="plik" accept="video/*" required>
+      <input type="text" id="zrodlo" placeholder="Źródło filmu: autor, link, licencja (pojawi się na nagraniu)" required>
+      <button id="wyslij">Wgraj i analizuj</button>
+    </form>
+    <p class="podp">Najlepiej działa na ujęciach z drona z góry (kamera w dół, 40–80 m), bo na takich zdjęciach (FloodNet, Teksas) uczył się model.
+      Każda klatka przechodzi przez YOLO11n-seg: niebieskie poligony to zalana droga, zielone sucha droga, turkusowe zalany budynek.
+      Pasek u góry filmu to ocena odcinka z ostatniej sekundy: zalanie wygrywa już przy kilku klatkach, a brak dowodu to „nie wiadomo”.</p>
+    <div id="stan"></div>
+  </div>
+  <div id="wyniki"></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const PROC = v => Math.round((v || 0) * 100);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"})[c]);
+
+$("formularz").onsubmit = e => {
+  e.preventDefault();
+  const plik = $("plik").files[0]; if (!plik) return;
+  const url = `/api/film?nazwa=${encodeURIComponent(plik.name)}&zrodlo=${encodeURIComponent($("zrodlo").value)}`;
+  const x = new XMLHttpRequest();  // XHR zamiast fetch: pasek postępu wysyłania
+  x.open("POST", url);
+  x.upload.onprogress = ev => { $("stan").innerHTML = `Wysyłanie: <progress max="${ev.total}" value="${ev.loaded}"></progress>`; };
+  x.onload = () => {
+    const odp = JSON.parse(x.responseText || "{}");
+    $("stan").innerHTML = odp.blad ? `<p class="blad">${odp.blad}</p>` : "Wysłano, analiza startuje…";
+    odswiez();
+  };
+  x.onerror = () => { $("stan").innerHTML = '<p class="blad">Błąd wysyłania (czy serwer działa?)</p>'; };
+  $("wyslij").disabled = true;
+  x.send(plik);
+};
+
+function karta(w) {
+  const p = w.postep || {}, s = w.podsumowanie;
+  if (!s) {
+    const proc = p.klatek ? Math.round(100 * p.klatka / p.klatek) : 0;
+    return `<div class="karta"><h2>${esc(p.plik || w.katalog)}</h2>Analiza: klatka ${p.klatka || 0} z ${p.klatek || "?"}
+      ${p.fps_przetwarzania ? `· ${p.fps_przetwarzania} kl./s` : ""}<progress max="100" value="${proc}"></progress></div>`;
+  }
+  const u = s.udzial_klatek, k = w.katalog;
+  return `<div class="karta">
+    <h2>${esc(s.plik)}</h2>
+    <div class="podp">Źródło: ${esc(s.zrodlo) || "—"}</div>
+    <div class="statystyki">
+      <span><b>${s.klatek}</b> klatek, ${s.rozdzielczosc.join("×")}, ${s.fps_filmu} kl./s filmu</span>
+      <span>przetwarzanie: <b>${s.fps_przetwarzania} kl./s</b> (${s.urzadzenie}, ${s.czas_przetwarzania_s} s)</span>
+      <span>ocena klatek: zalany ${PROC(u.zalany)}% · przejezdny ${PROC(u.przejezdny)}% · nie wiadomo ${PROC(u.nieznany)}%</span>
+    </div>
+    <div class="pasek" title="ocena odcinka sekunda po sekundzie">${s.ocena_na_sekunde.map(o =>
+      `<span style="flex:1;background:${{zalany: "#c62828", przejezdny: "#15803d", nieznany: "#9ca3af"}[o]}"></span>`).join("")}</div>
+    <video controls muted playsinline src="/${k}${s.film}"></video>
+    <div class="kadry">${s.kadry.map(f => `<a href="/${k}${f}" target="_blank"><img src="/${k}${f}" alt="kadr ${f}"></a>`).join("")}</div>
+    <p class="podp">Pliki do prezentacji: <a href="/${k}${s.film}" download>${s.film}</a> · kadry PNG powyżej (klik = pełny rozmiar) · folder <code>${k}</code>.
+      Wynik modelu na tym nagraniu nie jest zweryfikowany.</p>
+  </div>`;
+}
+
+async function odswiez() {
+  const d = await fetch("/api/film").then(r => r.json()).catch(() => null);
+  if (!d) return;
+  $("wyslij").disabled = d.trwa;
+  if (d.blad) $("stan").innerHTML = `<p class="blad">Błąd analizy:\n${d.blad}</p>`;
+  else if (!d.trwa && $("stan").textContent.startsWith("Wysłano")) $("stan").innerHTML = "";
+  $("wyniki").innerHTML = d.wyniki.map(karta).join("") || '<p class="podp">Brak przeanalizowanych filmów.</p>';
+}
+odswiez();
+setInterval(() => fetch("/api/film").then(r => r.json()).then(d => d.trwa || $("wyslij").disabled ? odswiez() : null).catch(() => {}), 1500);
+</script>
+</body>
+</html>

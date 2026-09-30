@@ -1,0 +1,50 @@
+[
+ {
+  "id_stacji": "12670",
+  "stacja": "Krosno",
+  "data_pomiaru": "2026-09-29",
+  "godzina_pomiaru": "11",
+  "temperatura": "19.5",
+  "predkosc_wiatru": "3",
+  "kierunek_wiatru": "100",
+  "wilgotnosc_wzgledna": "52.5",
+  "suma_opadu": "0",
+  "cisnienie": "1029.9"
+ },
+ {
+  "id_stacji": "12690",
+  "stacja": "Lesko",
+  "data_pomiaru": "2026-09-29",
+  "godzina_pomiaru": "11",
+  "temperatura": "19.9",
+  "predkosc_wiatru": "3",
+  "kierunek_wiatru": "110",
+  "wilgotnosc_wzgledna": "48.5",
+  "suma_opadu": "0",
+  "cisnienie": "1029.8"
+ },
+ {
+  "id_stacji": "12695",
+  "stacja": "Przemyśl",
+  "data_pomiaru": "2026-09-29",
+  "godzina_pomiaru": "11",
+  "temperatura": "19.3",
+  "predkosc_wiatru": "5",
+  "kierunek_wiatru": "100",
+  "wilgotnosc_wzgledna": "53.9",
+  "suma_opadu": "0",
+  "cisnienie": "1030.9"
+ },
+ {
+  "id_stacji": "12580",
+  "stacja": "Rzeszów",
+  "data_pomiaru": "2026-09-29",
+  "godzina_pomiaru": "11",
+  "temperatura": "19.4",
+  "predkosc_wiatru": "8",
+  "kierunek_wiatru": "110",
+  "wilgotnosc_wzgledna": "53.2",
+  "suma_opadu": "0",
+  "cisnienie": "1030.8"
+ }
+]

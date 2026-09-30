@@ -1,0 +1,10 @@
+bez dróg leśnych: wsi 31, nieosiągalnych z zewnątrz już przed powodzią (błędy danych/obszaru): 0 []
+  wszystkie drogi: 242 km
+  odcinki, których przerwanie odcina jakąkolwiek wieś: 13.2 km
+  z tego przy potoku (<60 m) lub na moście: 10.7 km; mosty OSM na nich: 10 segmentów
+  wsie nieodcinalne jednym przerwaniem: ['Buk', 'Bukowiec', 'Cisna', 'Jabłonki', 'Krywe', 'Na Granicach', 'Osada', 'Polanki', 'Radziejowa', 'Rajskie', 'Rawka', 'Smerek', 'Terka', 'Tyskowa', 'Wetlina', 'Wola Górzańska']
+  lot 10 m/s: wszystkie drogi 6.7 h vs krytyczne przy wodzie 18 min
+  wszystkie drogi przy potokach lub na mostach (naiwny zakres zwiadu): 126 km = 3.5 h lotu
+  wsie z pojedynczym punktem awarii: 15 z 31
+  trasa z Cisnej: krytyczne przy potokach: 67 km ≈ 111 min lotu przy 10 m/s ≈ 7 lotów (18 min użytecznych z 25 min, reszta to rezerwa)
+  trasa z Cisnej: wszystkie przy potokach: 280 km ≈ 467 min lotu przy 10 m/s ≈ 26 lotów (18 min użytecznych z 25 min, reszta to rezerwa)

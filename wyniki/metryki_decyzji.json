@@ -1,0 +1,24 @@
+{
+  "zbior": "test",
+  "jednostka": "zdjęcie (przybliżenie odcinka drogi)",
+  "definicja_prawdy": "zalany: ≥1% pikseli to zalana droga; przejezdny: ≥1% to niezalana droga i mniej niż 1% zalanej",
+  "progi_pewnosci": {
+    "zalany": 0.4,
+    "suchy": 0.5
+  },
+  "liczba_zdjec": {
+    "zalany": 47,
+    "przejezdny": 206
+  },
+  "odsetek_falszywie_bezpiecznych": 0.0,
+  "czulosc_wykrycia_zalania": 0.8723,
+  "zalane_oznaczone_jako_nieznane": 0.1277,
+  "falszywe_alarmy_na_suchych": 0.0,
+  "suche_oznaczone_jako_nieznane": 0.0971,
+  "macierz": {
+    "przejezdny -> nieznany": 20,
+    "przejezdny -> przejezdny": 186,
+    "zalany -> nieznany": 6,
+    "zalany -> zalany": 41
+  }
+}

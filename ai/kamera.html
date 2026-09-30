@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroPass — kamera i model</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #101923; color: #eef4f5; font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 1260px; margin: auto; padding: 28px; }
+  h1 { font-size: clamp(28px, 4vw, 44px); margin: 4px 0 6px; }
+  h2 { font-size: 16px; margin: 0 0 12px; }
+  .tag { color: #8ed9c4; font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+  .opis { color: #bccbd0; max-width: 780px; margin: 0 0 22px; }
+  .sterowanie { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  button { padding: 11px 17px; border: 0; border-radius: 8px; background: #8ed9c4; color: #10211e; font: inherit; font-weight: 700; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: default; }
+  #stop { background: #30414b; color: #eef4f5; }
+  #komunikat { color: #bccbd0; }
+  .siatka { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .karta { min-width: 0; background: #192631; border: 1px solid #34434e; border-radius: 12px; padding: 16px; }
+  video, #obraz { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #0b1218; border-radius: 7px; display: block; }
+  #obraz { border: 1px solid #34434e; }
+  .wynik { margin: 15px 0 6px; font-size: 22px; font-weight: 750; }
+  .wynik.zalany { color: #ff8d85; } .wynik.suchy { color: #9dc8ed; } .wynik.nieznany { color: #f2d390; }
+  #wyniki { color: #bccbd0; font-size: 14px; }
+  input[type=file] { max-width: 260px; font: inherit; color: #bccbd0; }
+  .formularz { margin-top: 18px; display:none; }
+  .pola { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  .pola label { display:flex; flex-direction:column; gap:5px; color:#bccbd0; font-size:14px; }
+  .pola input, .pola select { width:100%; padding:9px; border:1px solid #61717c; border-radius:6px; background:#0b1218; color:#fff; font:inherit; }
+  .pola [hidden] { display:none; }
+  .formularz button { margin-top:14px; }
+  .formularz a { color:#8ed9c4; }
+  .uwaga { border-left: 3px solid #f2d390; padding-left: 12px; color: #d7dbd4; margin-top: 22px; max-width: 900px; }
+  @media (max-width: 760px) { main { padding: 18px; } .siatka, .pola { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="tag">AEROPASS / PROOF OF CONCEPT</div>
+  <h1>Model wizyjny na żywo</h1>
+  <p class="opis">Model CLIP porównuje klatkę z opisami zalanej ulicy, suchej ulicy i innych scen. Działa lokalnie na tym komputerze. Możesz użyć kamerki albo wskazać zdjęcie.</p>
+  <div class="sterowanie">
+    <button id="start">Włącz kamerę</button>
+    <button id="stop" disabled>Wyłącz kamerę</button>
+    <button id="zapisz" disabled>Zachowaj klatkę do meldunku</button>
+    <input id="plik" type="file" accept="image/*" aria-label="Wybierz zdjęcie do analizy">
+    <span id="komunikat" role="status">Kamera wyłączona</span>
+  </div>
+  <div class="siatka">
+    <section class="karta"><h2>Obraz z kamerki</h2><video id="wideo" autoplay muted playsinline></video></section>
+    <section class="karta"><h2>Ostatnia analizowana klatka</h2><img id="obraz" alt="Ostatnia analizowana klatka"><div id="wynik" class="wynik nieznany">Czekam na obraz</div><div id="wyniki"></div></section>
+  </div>
+  <form id="formularz" class="karta formularz">
+    <h2>Operator sprawdza obraz i zatwierdza obserwację</h2>
+    <p class="opis">GPS wpisz dla miejsca widocznego na zdjęciu z kontrolera lub mapy DJI. Pozycja drona nie musi być pozycją obiektu.</p>
+    <div class="pola">
+      <label>Ocena operatora<select id="typ" required><option value="zalanie">Widoczne zalanie</option><option value="brak_widocznego_zalania">Brak widocznego zalania</option><option value="drzewa">Powalone drzewa</option><option value="uszkodzony_most">Uszkodzony most</option><option value="inne">Inna przeszkoda</option><option value="nie_ustalono">Nie ustalono</option></select></label>
+      <label id="liczbaPole" hidden>Liczba drzew<input id="liczba" type="number" min="1" max="999" value="1"></label>
+      <label>Szerokość GPS<input id="lat" type="number" step="any" min="-90" max="90" required placeholder="49.21"></label>
+      <label>Długość GPS<input id="lon" type="number" step="any" min="-180" max="180" required placeholder="22.40"></label>
+      <label>Operator<input id="operator" required placeholder="Imię / identyfikator"></label>
+      <label>Rodzaj materiału<select id="material"><option value="demo">Materiał demonstracyjny</option><option value="lot">Ujęcie z lotu operatora</option></select></label>
+      <label>Źródło zdjęcia<input id="zrodlo" required placeholder="np. własny lot DJI lub FloodNet"></label>
+      <label>Uwagi<input id="uwagi" placeholder="np. odcinek DW 897, punkt wskazany ręcznie"></label>
+    </div>
+    <button type="submit">Zatwierdź i pokaż sztabowi</button>
+    <span id="potwierdzenie" role="status"></span>
+  </form>
+  <p class="uwaga">Model CLIP proponuje opis sceny, ale nie ocenia bezpieczeństwa ani przejezdności. Procenty pokazują względne dopasowanie do czterech opisów, a nie prawdopodobieństwo zdarzenia. Liczbę drzew i uszkodzenia mostu wpisuje człowiek. Tylko zatwierdzona obserwacja trafia na mapę sztabu.</p>
+  <canvas id="klatka" hidden></canvas>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const nazwy = {zalany: "zalana ulica", suchy: "sucha ulica", rzeka: "rzeka lub jezioro", wnetrze: "wnętrze"};
+const stany = {zalany: "Obraz przypomina zalaną ulicę", suchy: "Brak widocznego zalania ulicy", nieznany: "Inny obraz / brak rozstrzygnięcia"};
+let strumien = null, timer = null, zajety = false, kandydat = null;
+
+async function wyslij(blob, zapisz = false) {
+  if (zajety) return;
+  zajety = true;
+  try {
+    if (!blob) throw new Error('Nie udało się pobrać klatki');
+    const odp = await fetch(zapisz ? '/api/analiza?zapisz=1' : '/api/analiza', {method: 'POST', headers: {'Content-Type': 'image/jpeg'}, body: blob});
+    const dane = await odp.json();
+    if (!odp.ok) throw new Error(dane.blad || 'Błąd analizy');
+    const url = URL.createObjectURL(blob);
+    $('obraz').onload = () => URL.revokeObjectURL(url);
+    $('obraz').src = url;
+    $('wynik').textContent = stany[dane.stan] || dane.stan;
+    $('wynik').className = 'wynik ' + dane.stan;
+    $('wyniki').textContent = 'Względne dopasowanie: ' + dane.wyniki.map(w => `${nazwy[w.typ]} ${Math.round(w.score * 100)}%`).join(' · ');
+    $('komunikat').textContent = zapisz ? 'Klatka zapisana do weryfikacji' : 'Analiza zakończona';
+    if (zapisz) {
+      kandydat = dane.kandydat;
+      $('formularz').querySelector('button[type=submit]').disabled = false;
+      $('potwierdzenie').textContent = '';
+      $('formularz').style.display = 'block';
+      $('typ').value = {zalany: 'zalanie', suchy: 'brak_widocznego_zalania'}[dane.stan] || 'nie_ustalono';
+      $('liczbaPole').hidden = true;
+      $('formularz').scrollIntoView({behavior: 'smooth', block: 'start'});
+      if (strumien) $('stop').onclick();
+    }
+  } catch (e) {
+    $('komunikat').textContent = e.message;
+  } finally {
+    zajety = false;
+  }
+}
+
+async function analizuj(zapisz = false) {
+  if (!strumien || zajety || !$('wideo').videoWidth) return;
+  const wideo = $('wideo'), canvas = $('klatka');
+  canvas.width = Math.min(640, wideo.videoWidth);
+  canvas.height = Math.round(canvas.width * wideo.videoHeight / wideo.videoWidth);
+  canvas.getContext('2d').drawImage(wideo, 0, 0, canvas.width, canvas.height);
+  await wyslij(await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', .8)), zapisz);
+}
+
+$('plik').onchange = async () => {
+  if (strumien) $('stop').onclick();
+  const plik = $('plik').files[0];
+  if (!plik) return;
+  try {
+    const bitmapa = await createImageBitmap(plik), canvas = $('klatka');
+    canvas.width = Math.min(640, bitmapa.width);
+    canvas.height = Math.round(canvas.width * bitmapa.height / bitmapa.width);
+    canvas.getContext('2d').drawImage(bitmapa, 0, 0, canvas.width, canvas.height);
+    bitmapa.close();
+    while (zajety) await new Promise(resolve => setTimeout(resolve, 50));
+    await wyslij(await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', .8)), true);
+  } catch (e) {
+    $('komunikat').textContent = 'Nie udało się odczytać zdjęcia: ' + e.message;
+  }
+};
+
+$('start').onclick = async () => {
+  $('start').disabled = true;
+  $('komunikat').textContent = 'Proszę o dostęp do kamery…';
+  try {
+    strumien = await navigator.mediaDevices.getUserMedia({video: {width: {ideal: 1280}}, audio: false});
+    $('wideo').srcObject = strumien;
+    await $('wideo').play();
+    $('stop').disabled = false;
+    $('zapisz').disabled = false;
+    $('komunikat').textContent = 'Kamera włączona';
+    timer = setInterval(analizuj, 1500);
+    analizuj();
+  } catch (e) {
+    if (strumien) strumien.getTracks().forEach(t => t.stop());
+    strumien = null;
+    $('start').disabled = false;
+    $('komunikat').textContent = 'Nie udało się włączyć kamery: ' + e.message;
+  }
+};
+
+$('stop').onclick = () => {
+  clearInterval(timer);
+  if (strumien) strumien.getTracks().forEach(t => t.stop());
+  strumien = null;
+  $('wideo').srcObject = null;
+  $('start').disabled = false;
+  $('stop').disabled = true;
+  $('zapisz').disabled = true;
+  $('komunikat').textContent = 'Kamera wyłączona';
+};
+$('zapisz').onclick = () => analizuj(true);
+$('typ').onchange = () => $('liczbaPole').hidden = $('typ').value !== 'drzewa';
+$('formularz').onsubmit = async e => {
+  e.preventDefault();
+  $('potwierdzenie').textContent = 'Zapisuję…';
+  try {
+    const body = {id: kandydat, typ: $('typ').value, liczba: $('liczba').value,
+      lat: $('lat').value, lon: $('lon').value, operator: $('operator').value,
+      zrodlo: $('zrodlo').value, material: $('material').value, uwagi: $('uwagi').value};
+    const odp = await fetch('/api/potwierdz', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+    const dane = await odp.json();
+    if (!odp.ok) throw new Error(dane.blad || 'Nie udało się zapisać');
+    $('potwierdzenie').textContent = 'Zatwierdzono. Obserwacja jest na mapie sztabu: ';
+    const a = document.createElement('a'); a.href = 'http://localhost:8765/panel/'; a.textContent = 'otwórz panel ↗';
+    $('potwierdzenie').append(a);
+    $('formularz').querySelector('button[type=submit]').disabled = true;
+  } catch (blad) { $('potwierdzenie').textContent = blad.message; }
+};
+window.addEventListener('pagehide', () => $('stop').onclick());
+</script>
+</body>
+</html>

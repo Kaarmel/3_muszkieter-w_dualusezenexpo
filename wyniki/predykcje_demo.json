@@ -1,0 +1,2065 @@
+[
+ {
+  "plik": "demo/7323.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.73,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.836
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.81
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.796
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.785
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.768
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.754
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.749
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.738
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.734
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.731
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.728
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.719
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.71
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.705
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.697
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.677
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.676
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.673
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.652
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.638
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.63
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.622
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.6
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.599
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.556
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.551
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.506
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.497
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.45
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.434
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.431
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.311
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.262
+   }
+  ]
+ },
+ {
+  "plik": "demo/7586.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.69,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.767
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.709
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.697
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.696
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.694
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.655
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.65
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.615
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.611
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.605
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.551
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.495
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.467
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.418
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.372
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.343
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.251
+   }
+  ]
+ },
+ {
+  "plik": "demo/7300.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.78,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.819
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.775
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.767
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.754
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.745
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.741
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.732
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.718
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.712
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.694
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.69
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.667
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.659
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.651
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.571
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.523
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.514
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.405
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.339
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.296
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.267
+   }
+  ]
+ },
+ {
+  "plik": "demo/7581.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.68,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.796
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.754
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.727
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.717
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.709
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.675
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.669
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.649
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.636
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.635
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.632
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.629
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.615
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.591
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.569
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.553
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.478
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.316
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.262
+   }
+  ]
+ },
+ {
+  "plik": "demo/7294.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.91,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.922
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.911
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.861
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.852
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.837
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.835
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.779
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.762
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.76
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.754
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.744
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.734
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.726
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.72
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.719
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.716
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.708
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.705
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.674
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.664
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.658
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.64
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.635
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.629
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.597
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.564
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.542
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.533
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.519
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.513
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.505
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.499
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.457
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.447
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.429
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.394
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.376
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.32
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.29
+   }
+  ]
+ },
+ {
+  "plik": "demo/7577.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.88,
+  "wykrycia": [
+   {
+    "name": "flooded_road",
+    "conf": 0.875
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.814
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.779
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.761
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.744
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.734
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.733
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.733
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.716
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.715
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.702
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.701
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.69
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.642
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.615
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.611
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.608
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.598
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.558
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.527
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.481
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.412
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.368
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.325
+   }
+  ]
+ },
+ {
+  "plik": "demo/7315.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.79,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.843
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.828
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.803
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.794
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.789
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.755
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.754
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.746
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.726
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.714
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.671
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.654
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.644
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.637
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.583
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.543
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.536
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.535
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.488
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.342
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.265
+   }
+  ]
+ },
+ {
+  "plik": "demo/6717.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.49,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.861
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.835
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.82
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.788
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.778
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.757
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.738
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.737
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.72
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.676
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.668
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.61
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.598
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.571
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.501
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.494
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.487
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.486
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.435
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.43
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.409
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.291
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.269
+   }
+  ]
+ },
+ {
+  "plik": "demo/7476.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.52,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.823
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.783
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.749
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.745
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.726
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.718
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.589
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.521
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.486
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.307
+   }
+  ]
+ },
+ {
+  "plik": "demo/7486.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.84,
+  "wykrycia": [
+   {
+    "name": "flooded_road",
+    "conf": 0.838
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.719
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.712
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.706
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.654
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.643
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.643
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.641
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.622
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.613
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.6
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.572
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.486
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.399
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.268
+   }
+  ]
+ },
+ {
+  "plik": "demo/7616.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.69,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.812
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.707
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.706
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.699
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.693
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.69
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.682
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.663
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.642
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.622
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.614
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.595
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.583
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.581
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.565
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.543
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.403
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.398
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.377
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.253
+   }
+  ]
+ },
+ {
+  "plik": "demo/7604.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.48,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.714
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.696
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.685
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.639
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.625
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.589
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.54
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.481
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.403
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.257
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.256
+   }
+  ]
+ },
+ {
+  "plik": "demo/7415.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.88,
+  "wykrycia": [
+   {
+    "name": "flooded_road",
+    "conf": 0.877
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.842
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.813
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.797
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.797
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.795
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.752
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.75
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.739
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.721
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.708
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.7
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.68
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.68
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.678
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.672
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.664
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.602
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.574
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.554
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.37
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.288
+   }
+  ]
+ },
+ {
+  "plik": "demo/7333.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.69,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.781
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.78
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.771
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.749
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.714
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.709
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.705
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.689
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.678
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.675
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.656
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.647
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.552
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.352
+   }
+  ]
+ },
+ {
+  "plik": "demo/7339.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.52,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.779
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.763
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.748
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.727
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.725
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.709
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.676
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.65
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.648
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.645
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.641
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.641
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.639
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.634
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.625
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.614
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.599
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.592
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.588
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.58
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.579
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.568
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.524
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.518
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.495
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.481
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.344
+   }
+  ]
+ },
+ {
+  "plik": "demo/7359.jpg",
+  "prawda": "zalany",
+  "stan": "nieznany",
+  "pewnosc": 0.0,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.746
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.701
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.688
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.531
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.428
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.412
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.381
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.323
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.304
+   }
+  ]
+ },
+ {
+  "plik": "demo/7406.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.68,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.755
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.736
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.721
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.72
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.718
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.714
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.705
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.704
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.7
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.679
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.642
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.608
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.595
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.578
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.566
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.3
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.285
+   }
+  ]
+ },
+ {
+  "plik": "demo/7593.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.7,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.733
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.723
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.703
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.699
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.681
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.673
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.671
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.659
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.655
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.651
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.646
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.637
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.636
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.635
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.614
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.523
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.469
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.413
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.276
+   }
+  ]
+ },
+ {
+  "plik": "demo/7308.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.83,
+  "wykrycia": [
+   {
+    "name": "flooded_road",
+    "conf": 0.827
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.796
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.761
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.739
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.678
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.647
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.644
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.639
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.633
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.593
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.562
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.536
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.518
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.462
+   }
+  ]
+ },
+ {
+  "plik": "demo/7301.jpg",
+  "prawda": "zalany",
+  "stan": "zalany",
+  "pewnosc": 0.6,
+  "wykrycia": [
+   {
+    "name": "flooded_building",
+    "conf": 0.794
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.789
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.739
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.719
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.717
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.7
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.69
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.665
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.64
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.634
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.631
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.621
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.601
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.592
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.553
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.513
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.502
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.415
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.402
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.373
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.372
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.372
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.357
+   },
+   {
+    "name": "flooded_building",
+    "conf": 0.342
+   },
+   {
+    "name": "flooded_road",
+    "conf": 0.295
+   }
+  ]
+ },
+ {
+  "plik": "demo/8069.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.93,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.931
+   }
+  ]
+ },
+ {
+  "plik": "demo/8993.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.9,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.897
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.895
+   }
+  ]
+ },
+ {
+  "plik": "demo/9012.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.59,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.593
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.267
+   }
+  ]
+ },
+ {
+  "plik": "demo/7143.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.92,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.921
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.855
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.82
+   }
+  ]
+ },
+ {
+  "plik": "demo/8439.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.57,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.566
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.498
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.48
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.343
+   }
+  ]
+ },
+ {
+  "plik": "demo/6468.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.58,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.585
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.389
+   }
+  ]
+ },
+ {
+  "plik": "demo/7888.jpg",
+  "prawda": "przejezdny",
+  "stan": "nieznany",
+  "pewnosc": 0.0,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.409
+   }
+  ]
+ },
+ {
+  "plik": "demo/7993.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.81,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.811
+   }
+  ]
+ },
+ {
+  "plik": "demo/6412.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.83,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.828
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.604
+   }
+  ]
+ },
+ {
+  "plik": "demo/9060.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.91,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.906
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.816
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.743
+   }
+  ]
+ },
+ {
+  "plik": "demo/9018.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.71,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.708
+   }
+  ]
+ },
+ {
+  "plik": "demo/9092.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.79,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.794
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.726
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.527
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.328
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.289
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.278
+   }
+  ]
+ },
+ {
+  "plik": "demo/10813.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.86,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.857
+   },
+   {
+    "name": "road_non_flooded",
+    "conf": 0.339
+   }
+  ]
+ },
+ {
+  "plik": "demo/8154.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.86,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.86
+   }
+  ]
+ },
+ {
+  "plik": "demo/7063.jpg",
+  "prawda": "przejezdny",
+  "stan": "nieznany",
+  "pewnosc": 0.0,
+  "wykrycia": []
+ },
+ {
+  "plik": "demo/8762.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.89,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.891
+   }
+  ]
+ },
+ {
+  "plik": "demo/9112.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.92,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.92
+   }
+  ]
+ },
+ {
+  "plik": "demo/7647.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.92,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.923
+   }
+  ]
+ },
+ {
+  "plik": "demo/8356.jpg",
+  "prawda": "przejezdny",
+  "stan": "przejezdny",
+  "pewnosc": 0.77,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.768
+   }
+  ]
+ },
+ {
+  "plik": "demo/7889.jpg",
+  "prawda": "przejezdny",
+  "stan": "nieznany",
+  "pewnosc": 0.0,
+  "wykrycia": [
+   {
+    "name": "road_non_flooded",
+    "conf": 0.386
+   }
+  ]
+ }
+]

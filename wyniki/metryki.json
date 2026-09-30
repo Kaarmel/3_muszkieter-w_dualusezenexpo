@@ -1,0 +1,19 @@
+{
+  "model": "YOLO11n-seg, Ultralytics 8.4.165 (AGPL-3.0)",
+  "dane": "FloodNet-Supervised v1.0, oficjalny podział, CDLA-Permissive 1.0",
+  "liczba_par": {
+    "train": 1445,
+    "val": 450,
+    "test": 448
+  },
+  "epoki": 25,
+  "imgsz": 640,
+  "offset_klas": 0,
+  "val_mAP50_maski": 0.4355297949105674,
+  "val_mAP50_95_maski": 0.2660124469512157,
+  "val_mAP50_95_maski_per_klasa": {
+    "flooded_road": 0.05408924337993445,
+    "flooded_building": 0.4345479710896586,
+    "road_non_flooded": 0.30940012638405406
+  }
+}

@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AeroPass — panel stanowiska kierowania</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+  :root { --tlo:#f4f5f7; --karta:#fff; --tekst:#16181d; --szary:#5b6270; --linia:#d9dce2;
+          --pilne:#c62828; --wazne:#b45309; --info:#1d4ed8; --ok:#15803d; --nie:#6b7280; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.4 -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background:var(--tlo); color:var(--tekst); }
+  header { display:flex; align-items:center; gap:14px; padding:8px 14px; background:#111827; color:#fff; }
+  header h1 { font-size:16px; margin:0; font-weight:650; }
+  header a { color:#8ed9c4; }
+  header .zegar { margin-left:auto; font-variant-numeric:tabular-nums; font-size:18px; }
+  .znacznik { font-size:11px; padding:2px 6px; border-radius:4px; background:#fbbf24; color:#111; font-weight:700; }
+  #pasek { display:flex; flex-wrap:wrap; gap:8px; align-items:center; padding:8px 14px; background:var(--karta); border-bottom:1px solid var(--linia); }
+  #pasek .blok { padding:4px 8px; border-radius:6px; background:var(--tlo); }
+  #sym { display:flex; flex-wrap:wrap; gap:8px 12px; align-items:center; padding:6px 14px; background:#eef2ff; border-bottom:1px solid var(--linia); }
+  #sym b { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:#3730a3; }
+  #sym select, #sym input[type=number] { font:inherit; padding:3px 6px; border:1px solid var(--linia); border-radius:6px; }
+  #sym input[type=number] { width:80px; }
+  #sym .tryby { display:inline-flex; gap:2px; background:#fff; border:1px solid var(--linia); border-radius:8px; padding:2px; }
+  #sym .tryby label { padding:3px 8px; border-radius:6px; cursor:pointer; }
+  #sym .tryby input { display:none; }
+  #sym .tryby label:has(input:checked) { background:#3730a3; color:#fff; }
+  #sym .podp { color:var(--szary); font-size:12px; }
+  #sym .blad { color:var(--pilne); font-size:12px; white-space:pre-wrap; }
+  #kpi { display:grid; grid-template-columns:repeat(6, 1fr); gap:8px; padding:8px 14px; }
+  .kpi { background:var(--karta); border:1px solid var(--linia); border-radius:8px; padding:6px 10px; }
+  .kpi b { display:block; font-size:24px; font-variant-numeric:tabular-nums; }
+  .kpi span { color:var(--szary); font-size:12px; }
+  main { display:grid; grid-template-columns:minmax(360px, 38%) 1fr; gap:8px; padding:0 14px 8px; height:calc(100vh - 250px); min-height:460px; }
+  #lista { overflow:auto; }
+  #mapa { border-radius:8px; border:1px solid var(--linia); min-height:300px; background:#e8e6e1; }
+  .m { background:var(--karta); border:1px solid var(--linia); border-left:6px solid var(--nie); border-radius:8px; padding:8px 10px; margin-bottom:8px; cursor:pointer; }
+  .m.pilne { border-left-color:var(--pilne); } .m.wazne { border-left-color:var(--wazne); } .m.informacyjne { border-left-color:var(--info); }
+  .m.aktywny { outline:2px solid #111827; }
+  .m .gora { display:flex; gap:8px; align-items:baseline; }
+  .m .poziom { font-weight:800; font-size:12px; }
+  .pilne .poziom { color:var(--pilne); } .wazne .poziom { color:var(--wazne); } .informacyjne .poziom { color:var(--info); }
+  .m .nazwa { font-weight:700; font-size:15px; }
+  .m .wiek { margin-left:auto; color:var(--szary); font-size:12px; white-space:nowrap; }
+  .m .rek { margin:4px 0; }
+  .m .stat { color:var(--szary); font-size:12px; }
+  .przyciski { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+  button { font:inherit; padding:4px 10px; border-radius:6px; border:1px solid var(--linia); background:#fff; cursor:pointer; }
+  button:disabled { opacity:.45; cursor:default; }
+  button.tak { background:var(--ok); color:#fff; border-color:var(--ok); }
+  button.nie { background:#fff; color:var(--pilne); border-color:var(--pilne); }
+  .decyzja { font-size:12px; margin-top:6px; padding:4px 6px; background:var(--tlo); border-radius:6px; }
+  .decyzja.brak { background:#fef3c7; }
+  #szczegoly { background:var(--karta); border:1px solid var(--linia); border-radius:8px; padding:8px 10px; margin-bottom:8px; white-space:pre-wrap; display:none; }
+  #szczegoly img { max-width:100%; border-radius:6px; margin-top:6px; }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.04em; color:var(--szary); margin:10px 0 6px; }
+  #nieznane span { display:inline-block; margin:0 6px 6px 0; padding:2px 8px; border-radius:12px; background:#e5e7eb; }
+  #log { font-size:12px; color:var(--szary); max-height:160px; overflow:auto; background:var(--karta); border:1px solid var(--linia); border-radius:8px; padding:6px 8px; }
+  .legenda { background:rgba(255,255,255,.93); padding:6px 8px; border-radius:6px; font-size:12px; line-height:1.55; }
+  .legenda i { display:inline-block; width:22px; height:4px; margin-right:6px; vertical-align:middle; }
+  .leaflet-control-layers { font-size:12px; }
+  input.kto { font:inherit; padding:3px 6px; border:1px solid var(--linia); border-radius:6px; width:210px; }
+  .dron { position:relative; }
+  .dron svg { display:block; filter:drop-shadow(0 1px 2px rgba(0,0,0,.5)); transition:transform .25s linear; }
+  .dron span { position:absolute; left:24px; top:-4px; font:700 11px/1 -apple-system, Arial, sans-serif; background:#111827; color:#fff; padding:2px 4px; border-radius:4px; }
+  .ikona-scen { font-size:18px; line-height:18px; text-align:center; filter:drop-shadow(0 0 2px #fff); }
+</style>
+</head>
+<body>
+<header>
+  <h1>AeroPass · widok sztabu · Dolina Solinki i Wetlinki</h1>
+  <span class="znacznik">DEMO · dane symulowane są oznaczone</span>
+  <a href="http://localhost:8767/" target="_blank" rel="noopener">Operator: zdjęcie i GPS ↗</a>
+  <a href="film.html" target="_blank" rel="noopener">Analiza filmu z drona ↗</a>
+  <span class="zegar" id="zegar">--:--</span>
+</header>
+<div id="pasek">
+  <span class="blok" id="alarm">Brak alarmu</span>
+  <span class="blok" id="pogoda">Można latać: —</span>
+  <span class="blok" id="lot">Lot: —</span>
+  <span id="zgoda"></span>
+  <span style="margin-left:auto">Decyzję podejmuje: <input class="kto" id="kto" value="dyżurny SK KP PSP (demo)"></span>
+  <button id="geojson">Eksport GeoJSON</button>
+  <button id="kml">Eksport KML</button>
+</div>
+<div id="sym">
+  <b>Symulacja</b>
+  <label>Scenariusz nr <input type="number" id="ziarno" min="0" max="999999" value="56"></label>
+  <button id="losuj" title="Nowy numer scenariusza, czyści ręczne zmiany">🎲 Nowa losowa powódź</button>
+  <label>Strategia <select id="strategia"><option value="B">AeroPass: najpierw odcinki rozstrzygające</option><option value="A">Przegląd wszystkich dróg przy ciekach</option></select></label>
+  <label>Tempo <select id="tempo"><option value="1">1 min/s</option><option value="3" selected>3 min/s</option><option value="10">10 min/s</option><option value="30">30 min/s</option></select></label>
+  <button class="tak" id="startBtn">▶ Start</button>
+  <button id="pauzaBtn">⏸ Pauza</button>
+  <button id="resetBtn">↺ Reset</button>
+  <span class="tryby" title="Co robi klik na drodze przed startem">
+    <label><input type="radio" name="tryb" value="zalany" checked>🌊 zalanie</label>
+    <label><input type="radio" name="tryb" value="drzewo">🌲 powalone drzewo</label>
+    <label><input type="radio" name="tryb" value="most">🌉 zerwany most</label>
+    <label><input type="radio" name="tryb" value="usun">✖ usuń</label>
+  </span>
+  <label><input type="checkbox" id="pokazPrawde"> Pokaż prawdę scenariusza</label>
+  <span class="podp" id="podpSym"></span>
+  <span class="blad" id="bladSym"></span>
+</div>
+<div id="kpi">
+  <div class="kpi"><b id="k-odc">0</b><span>⛔ wsi odciętych (wóz ciężki)</span></div>
+  <div class="kpi"><b id="k-nie">0</b><span>❓ wsi o nieustalonym dojeździe</span></div>
+  <div class="kpi"><b id="k-dost">0</b><span>✅ wsi z dojazdem</span></div>
+  <div class="kpi"><b id="k-km">0</b><span>km sprawdzonych w symulacji</span></div>
+  <div class="kpi"><b id="k-min">0</b><span>minut symulowanego lotu</span></div>
+  <div class="kpi"><b id="k-proc">— / —</b><span>min do ustalenia 50% / 90% wsi nieznanych na starcie</span></div>
+</div>
+<main>
+  <section id="lista">
+    <div id="szczegoly"></div>
+    <h2>Obserwacje operatora · zdjęcie i GPS</h2>
+    <div id="operatorzy"></div>
+    <h2>Meldunki według pilności</h2>
+    <div id="meldunki"></div>
+    <h2>Nieznany dojazd w scenariuszu</h2>
+    <div id="nieznane"></div>
+    <h2>Dziennik zdarzeń</h2>
+    <div id="log"></div>
+  </section>
+  <div id="mapa"></div>
+</main>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pobierz = p => fetch("../" + p + "?t=" + Date.now()).then(r => r.ok ? r.json() : null).catch(() => null);
+const POZIOM = {pilne: "⛔ PILNE", wazne: "⚠️ WAŻNE", informacyjne: "✅ INFO"};
+const STATUS = {dostepna: "✅ dostępna", odcieta: "⛔ odcięta", nieznany: "❓ nie wiadomo"};
+const WYNIK = {zatwierdzona: "zatwierdzona", odrzucona: "odrzucona", zmieniona: "zmieniona",
+               zadysponowano: "zadysponowano", w_drodze: "w drodze", dotarlo: "dotarło", niewykonane: "niewykonane"};
+const KOLORY_DRONOW = ["#f97316", "#db2777", "#0891b2", "#65a30d"];
+const ODSWIEZANIE_MS = 500;
+let stan = {misja: null, wsie: [], meldunki: [], zmiany: {}, decyzje: [], loty: [], zdarzenia: [], obserwacjeOperatora: []};
+let wybrany = null, odcinki = {}, warstwyOdc = {}, znacznikiWsi = {}, drony = [], stacje = [], rzeki = [];
+const znacznikiOperatora = {};
+let reczne = {}, powody = {}, prawda = {}, przebieg = null, ster = {}, podpisy = {};  // reczne: klik przed startem (system tego nie wie)
+
+// ---------- mapa: podkłady GUGiK / OpenTopoMap albo bez podkładu (offline); drogi i cieki to wektory z OSM ----------
+const mapa = L.map("mapa", {zoomSnap: 0.25, renderer: L.canvas({tolerance: 8}), attributionControl: true}).setView([49.21, 22.40], 11.5);
+mapa.createPane("woda").style.zIndex = 350;   // woda pod drogami
+mapa.createPane("cieki").style.zIndex = 360;
+const rWoda = L.canvas({pane: "woda"}), rCieki = L.canvas({pane: "cieki"});
+const GUGIK = "https://mapy.geoportal.gov.pl/wss/service/PZGIK/";
+const podklady = {
+  "Rzeźba terenu: cieniowanie NMT (GUGiK)": L.tileLayer.wms(GUGIK + "NMT/GRID1/WMS/ShadedRelief", {layers: "Raster", format: "image/png", opacity: .5, attribution: "NMT: © GUGiK"}),
+  "Ortofotomapa (GUGiK)": L.tileLayer.wms(GUGIK + "ORTO/WMS/StandardResolution", {layers: "Raster", format: "image/jpeg", attribution: "Ortofotomapa: © GUGiK"}),
+  "OpenTopoMap (poziomice)": L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {subdomains: "abc", maxZoom: 17, opacity: .75, attribution: "© OpenTopoMap (CC-BY-SA)"}),
+  "Bez podkładu (offline)": L.layerGroup(),
+};
+podklady["Rzeźba terenu: cieniowanie NMT (GUGiK)"].addTo(mapa);
+const isok = L.tileLayer.wms("https://wody.isok.gov.pl/wss/INSPIRE/INSPIRE_NZ_HY_MZPMRP_WMS", {layers: "NZ.Fluvial", format: "image/png", transparent: true, minZoom: 13, zIndex: 5,
+  attribution: "Obszary zagrożenia powodziowego: © Wody Polskie / KZGW (ISOK)"});
+const warstwaCiekow = L.layerGroup().addTo(mapa), warstwaWody = L.layerGroup().addTo(mapa), nakladka = L.layerGroup().addTo(mapa), slady = L.layerGroup().addTo(mapa), warstwaOperatora = L.layerGroup().addTo(mapa);
+L.control.layers(podklady, {"Strefy zagrożenia powodziowego ISOK (od przybliżenia 13)": isok, "Rzeki i potoki (OSM)": warstwaCiekow,
+  "Woda i przeszkody w scenariuszu": warstwaWody, "Ślady lotów dronów": slady, "Potwierdzone obserwacje operatora": warstwaOperatora}, {collapsed: false, position: "topright"}).addTo(mapa);
+isok.addTo(mapa);
+mapa.attributionControl.addAttribution("Drogi i cieki: © OpenStreetMap contributors (ODbL), IMGW-PIB");
+const legenda = L.control({position: "bottomleft"});
+legenda.onAdd = () => { const d = L.DomUtil.create("div", "legenda"); d.innerHTML =
+  '<i style="background:#15803d"></i>przejezdny (dron)<br><i style="background:#9ca3af"></i>przejezdny (założenie)<br>' +
+  '<i style="background:#6b7280;height:2px;border-top:2px dashed #6b7280"></i>nieznany / zgłoszenie<br><i style="background:#2563eb"></i>zalany<br>' +
+  '<i style="background:#dc2626"></i>zerwany / zablokowany<br><i style="background:#a16207;height:2px"></i>droga leśna<br>' +
+  '<i style="background:#1d4ed8;height:3px"></i>rzeka · <i style="background:#60a5fa;height:1px;width:14px"></i>potok<br>' +
+  '<i style="background:rgba(59,130,246,.45);height:10px"></i>woda (obserwacja drona)<br>' +
+  '<i style="background:#7c3aed;height:3px;border-top:3px dotted #7c3aed"></i>scenariusz (system nie wie)<br>' +
+  '<svg width="14" height="14" viewBox="0 0 34 34" style="vertical-align:middle;margin:0 6px 0 4px"><path d="M17 2 L29 30 L17 23 L5 30 Z" fill="#f97316"/></svg>dron (kierunek lotu)'; return d; };
+legenda.addTo(mapa);
+
+function styl(o, z) {
+  const s = z ? z.stan : o.stan, lesny = o.lesny;
+  if (s === "zalany") return {color: "#2563eb", weight: 5, opacity: .95};
+  if (s === "zerwany" || s === "zablokowany") return {color: "#dc2626", weight: lesny ? 3 : 5, opacity: .95};
+  if (z && s === "przejezdny") return {color: lesny ? "#65a30d" : "#15803d", weight: lesny ? 2.5 : 4, opacity: .95};
+  if (lesny) return {color: "#a16207", weight: 1.2, opacity: .45, dashArray: "3 4"};
+  if (s === "nieznany") return {color: "#4b5563", weight: 3, opacity: .85, dashArray: "6 5"};
+  return {color: "#9ca3af", weight: 2.5, opacity: .85};
+}
+
+async function start() {
+  const lista = await pobierz("stan/odcinki.json") || [];
+  for (const o of lista) {
+    odcinki[o.id] = o;
+    warstwyOdc[o.id] = L.polyline(o.geometria, styl(o)).addTo(mapa)
+      .bindTooltip(() => opisOdc(o.id), {sticky: true}).on("click", () => klikOdc(o.id));
+  }
+  for (const c of await pobierz("stan/cieki.json") || []) {
+    const rzeka = c.typ === "river";
+    const l = L.polyline(c.geometria, {renderer: rCieki, interactive: rzeka, color: rzeka ? "#1d4ed8" : "#60a5fa", weight: rzeka ? 3 : 1, opacity: rzeka ? .85 : .5})
+      .addTo(warstwaCiekow);
+    if (rzeka) { rzeki.push(l); if (c.nazwa) l.bindTooltip(c.nazwa, {sticky: true}); }
+  }
+  const granice = L.latLngBounds(lista.filter(o => !o.lesny).flatMap(o => o.geometria));
+  if (granice.isValid()) mapa.fitBounds(granice, {padding: [10, 10]});
+  mapa.on("zoomend", () => { podpisy.woda = null; rysujWode(); });
+  let trwa = false;
+  const tik = async () => { if (trwa) return; trwa = true; try { await odswiez(); } finally { trwa = false; } };
+  tik(); setInterval(tik, ODSWIEZANIE_MS);
+  requestAnimationFrame(animujDrony);
+}
+
+const trybOpis = {zalany: "zalej", drzewo: "powalone drzewo", most: "zerwij most", usun: "usuń zmianę"};
+function opisOdc(id) {
+  const o = odcinki[id], z = stan.zmiany[id];
+  const s = z ? z.stan : o.stan;
+  const tryb = document.querySelector("input[name=tryb]:checked").value;
+  return `${o.droga} · ${id}<br>${s}${z ? " · " + wiek(z.czas_obserwacji) : o.stan === "przejezdny" ? " (założenie)" : ""}${o.zgloszenie ? " · zgłoszenie" : ""}` +
+         (o.most ? "<br>most" : "") + (o.krytyczny_dla.length ? `<br>krytyczny dla: ${o.krytyczny_dla.length} wsi` : "") +
+         (!ster.dziala ? `<br><i>klik: ${trybOpis[tryb]}${!o.lesny && !o.przy_potoku && tryb !== "usun" ? " · z dala od cieku, więc trafi do zwiadu jako zgłoszenie" : ""}</i>` : "");
+}
+
+function wiek(iso) {
+  if (!iso || !stan.misja) return "";
+  const m = Math.round((new Date(stan.misja.czas) - new Date(iso)) / 60000);
+  return m <= 0 ? "przed chwilą" : `${m} min temu`;
+}
+
+const htm = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+const typOperatora = {zalanie: "Widoczne zalanie", brak_widocznego_zalania: "Brak widocznego zalania",
+  drzewa: "Powalone drzewa", uszkodzony_most: "Uszkodzony most", inne: "Inna przeszkoda", nie_ustalono: "Nie ustalono"};
+function pokazObserwacje(id) {
+  const o = stan.obserwacjeOperatora.find(x => x.id === id);
+  if (o && znacznikiOperatora[id]) { mapa.flyTo(o.gps, 14, {duration:.6}); znacznikiOperatora[id].openPopup(); }
+}
+function rysujOperatora() {
+  if (!zmienione("obserwacje_operatora", stan.obserwacjeOperatora.map(o => o.id))) return;
+  for (const o of stan.obserwacjeOperatora) {
+    if (znacznikiOperatora[o.id]) continue;
+    const nazwa = typOperatora[o.typ] || o.typ;
+    const model = o.wyniki && o.wyniki.length ? `${o.wyniki[0].typ}: ${Math.round(o.wyniki[0].score * 100)}% względnego dopasowania` : "brak";
+    const opis = `<b>${htm(nazwa)}${o.liczba ? `: ${o.liczba}` : ""}</b><br>${htm(o.operator)} · ${htm(o.czas_potwierdzenia)}<br>` +
+      `Model sugerował: ${htm(model)}<br>GPS: ${o.gps.map(x => x.toFixed(5)).join(", ")} · ${o.material === "demo" ? "materiał demo" : "ujęcie z lotu (deklaracja operatora)"}<br>` +
+      `Źródło: ${htm(o.zrodlo)}${o.uwagi ? `<br>Uwagi: ${htm(o.uwagi)}` : ""}<br><a href="../${htm(o.obraz)}" target="_blank" rel="noopener">Otwórz zdjęcie</a>`;
+    znacznikiOperatora[o.id] = L.circleMarker(o.gps, {radius: 9, color: "#111827", weight: 2, fillColor: "#f59e0b", fillOpacity: 1})
+      .addTo(warstwaOperatora).bindPopup(opis);
+  }
+  $("operatorzy").innerHTML = stan.obserwacjeOperatora.slice().reverse().map(o =>
+    `<div class="m informacyjne" onclick="pokazObserwacje('${o.id}')"><div class="gora"><span class="nazwa">${htm(typOperatora[o.typ] || o.typ)}${o.liczba ? ` · ${o.liczba}` : ""}</span></div>` +
+    `<div class="stat">${htm(o.operator)} · ${htm(o.czas_potwierdzenia)} · ${o.material === "demo" ? "DEMO" : "lot operatora"}</div>` +
+    `<div class="stat">GPS ${o.gps.map(x => x.toFixed(5)).join(", ")} · zdjęcie i wynik modelu po kliknięciu</div></div>`).join("") ||
+    '<div class="stat">Brak zatwierdzonych obserwacji. Operator może wgrać zdjęcie przez link w nagłówku.</div>';
+}
+
+// rysujemy tylko to, co się zmieniło: bez tego lista skacze, a pole „Zmień” traci wpisany tekst
+function zmienione(klucz, wartosc) {
+  const s = JSON.stringify(wartosc);
+  if (podpisy[klucz] === s) return false;
+  podpisy[klucz] = s; return true;
+}
+
+async function odswiez() {
+  const [misja, wsie, meldunki, zmiany, decyzje, loty, zdarzenia, obserwacjeOperatora] = await Promise.all(
+    ["misja", "wsie", "meldunki", "zmiany", "decyzje", "loty", "zdarzenia", "obserwacje_operatora"].map(n => pobierz(`stan/${n}.json`)));
+  ster = await fetch("/api/sterowanie").then(r => r.json()).catch(() => ({}));
+  Object.assign(stan, {misja, wsie: wsie || [], meldunki: meldunki || [], zmiany: zmiany || {},
+                       decyzje: decyzje || [], loty: loty || [], zdarzenia: zdarzenia || [], obserwacjeOperatora: obserwacjeOperatora || []});
+  if (misja && misja.przebieg !== przebieg) {
+    przebieg = misja.przebieg; await resetMapy();
+    if (misja.ziarno != null) { $("ziarno").value = misja.ziarno; $("strategia").value = misja.strategia || "B"; }
+  }
+  rysujPasek(); rysujKpi(); rysujMape(); rysujOperatora(); rysujDrony(); rysujSym(); rysujNakladke(); rysujWode();
+  const minuta = misja ? Math.floor(misja.minuta_lotu) : 0;
+  const edycja = document.activeElement && document.activeElement.closest && document.activeElement.closest("#meldunki");
+  if (!edycja && zmienione("lista", [stan.meldunki.map(m => m.id + m.czas), stan.decyzje.length, wybrany, minuta, stan.wsie.map(w => w.status)])) rysujListe();
+  if (zmienione("log", [stan.zdarzenia.length, (stan.zdarzenia.at(-1) || {}).czas])) rysujLog();
+}
+
+// ---------- symulacja: przyciski, klik na drodze, nakładka scenariusza ----------
+const ZNAK = {zalany: "🌊", drzewo: "🌲", most: "🌉"};
+const OPIS_R = {zalany: "zalany", zerwany: "zerwany most", zablokowany: "zablokowany (powalone drzewo)"};
+
+async function resetMapy() {  // nowy przebieg demo: mapa od zera
+  for (const o of await pobierz("stan/odcinki.json") || []) odcinki[o.id] = o;
+  for (const [id, w] of Object.entries(warstwyOdc)) { delete w._z; w.setStyle(styl(odcinki[id])); }
+  drony.forEach(d => d.marker.remove()); drony = []; slady.clearLayers();
+  wybrany = null; $("szczegoly").style.display = "none"; podpisy = {};
+  const p = await pobierz("stan/prawda.json"); prawda = p ? p.stany : {};
+}
+
+function klikOdc(id) {
+  const o = odcinki[id], tryb = document.querySelector("input[name=tryb]:checked").value;
+  if (ster.dziala) return;
+  if (tryb === "usun") { delete reczne[id]; delete powody[id]; }
+  else if (tryb === "most" && !o.most) { $("podpSym").textContent = "To nie jest most. Najedź na drogę: most ma w opisie „most”."; return; }
+  else { reczne[id] = {zalany: "zalany", drzewo: "zablokowany", most: "zerwany"}[tryb]; powody[id] = tryb; }
+  podpisy.nakladka = podpisy.woda = null; rysujNakladke(); rysujWode(); rysujSym();
+}
+
+function srodek(g) { return g[Math.floor(g.length / 2)]; }
+
+function rysujNakladke() {
+  const zPrawdy = $("pokazPrawde").checked ? Object.fromEntries(Object.entries(prawda).filter(([id, s]) => s !== "przejezdny" && odcinki[id] && !odcinki[id].lesny)) : {};
+  const pokaz = {...zPrawdy, ...reczne};
+  if (!zmienione("nakladka", [pokaz, Object.keys(stan.zmiany).length])) return;
+  nakladka.clearLayers();
+  for (const [id, s] of Object.entries(pokaz)) {
+    if (stan.zmiany[id] || !odcinki[id]) continue;  // dron już sprawdził: widać prawdziwy kolor
+    const opis = `Scenariusz: ${OPIS_R[s] || s}${reczne[id] ? " (ręcznie)" : ""}<br>System tego nie wie, dopóki dron nie sprawdzi.`;
+    L.polyline(odcinki[id].geometria, {color: "#7c3aed", weight: 7, opacity: .85, dashArray: "2 8", lineCap: "round"})
+      .bindTooltip(opis, {sticky: true}).on("click", () => klikOdc(id)).addTo(nakladka);
+    const znak = ZNAK[powody[id]] || {zalany: "🌊", zerwany: "🌉", zablokowany: "🌲"}[s];
+    if (znak) L.marker(srodek(odcinki[id].geometria), {icon: L.divIcon({html: znak, className: "ikona-scen", iconSize: [20, 20]}), keyboard: false})
+      .bindTooltip(opis).on("click", () => klikOdc(id)).addTo(nakladka);
+  }
+}
+
+// woda: pas szerokości ok. 90 m wokół zalanych odcinków (w metrach, więc rośnie z przybliżeniem);
+// pełna po obserwacji drona, blada dla scenariusza, którego system jeszcze nie zna
+function rysujWode() {
+  const alarm = !!(stan.misja && stan.misja.alarm);
+  const obserwowane = Object.entries(stan.zmiany).filter(([, z]) => z.stan === "zalany").map(([id]) => id);
+  const scen = Object.entries({...($("pokazPrawde").checked ? prawda : {}), ...reczne}).filter(([id, s]) => s === "zalany" && !stan.zmiany[id]).map(([id]) => id);
+  if (!zmienione("woda", [obserwowane, scen, alarm, mapa.getZoom()])) return;
+  warstwaWody.clearLayers();
+  const mNaPx = 156543.03 * Math.cos(49.2 * Math.PI / 180) / 2 ** mapa.getZoom();
+  const pas = (ids, opacity) => ids.forEach(id => odcinki[id] && L.polyline(odcinki[id].geometria,
+    {renderer: rWoda, interactive: false, color: "#3b82f6", opacity, weight: Math.max(8, 90 / mNaPx), lineCap: "round", lineJoin: "round"}).addTo(warstwaWody));
+  pas(obserwowane, .45); pas(scen, .2);
+  rzeki.forEach(l => l.setStyle(alarm ? {weight: Math.max(4, 25 / mNaPx), color: "#1e40af", opacity: .9} : {weight: 3, color: "#1d4ed8", opacity: .85}));
+}
+
+function rysujSym() {
+  const d = !!ster.dziala, n = Object.keys(reczne).length;
+  if (!zmienione("sym", [ster, n])) return;
+  $("startBtn").disabled = d; $("pauzaBtn").disabled = !d;
+  $("losuj").disabled = $("ziarno").disabled = $("strategia").disabled = d;
+  $("pauzaBtn").textContent = ster.pauza ? "▶ Wznów" : "⏸ Pauza";
+  if (document.activeElement !== $("tempo") && $("tempo").querySelector(`option[value="${ster.tempo}"]`)) $("tempo").value = String(ster.tempo);
+  $("podpSym").textContent = d ? `Scenariusz ${ster.ziarno}, strategia ${ster.strategia === "A" ? "przegląd wszystkich" : "AeroPass"}${ster.pauza ? " · PAUZA" : ""}`
+    : `Przed startem wybierz tryb i kliknij drogę albo most${n ? ` · zmiany ręczne: ${n}` : ""}`;
+  $("bladSym").textContent = ster.blad ? "Błąd demo: " + ster.blad : "";
+}
+
+const steruj = body => fetch("/api/sterowanie", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)})
+  .then(r => r.json()).then(s => { ster = s; podpisy.sym = null; rysujSym(); });
+const scen = () => ({ziarno: +$("ziarno").value || 0, strategia: $("strategia").value, tempo: +$("tempo").value || 3});
+const wyczysc = () => { reczne = {}; powody = {}; podpisy.nakladka = podpisy.woda = null; };
+$("startBtn").onclick = () => steruj({akcja: "start", ...scen(), reczne});
+$("resetBtn").onclick = () => steruj({akcja: "reset", ...scen(), reczne: {}});
+$("losuj").onclick = () => { $("ziarno").value = Math.floor(Math.random() * 100000); wyczysc(); steruj({akcja: "reset", ...scen(), reczne: {}}); };
+$("pauzaBtn").onclick = () => steruj({akcja: ster.pauza ? "wznow" : "pauza"});
+$("tempo").onchange = () => ster.dziala ? steruj({akcja: "tempo", tempo: +$("tempo").value}) : null;
+$("ziarno").onchange = () => { wyczysc(); steruj({akcja: "reset", ...scen(), reczne: {}}); };
+$("pokazPrawde").onchange = () => { podpisy.nakladka = podpisy.woda = null; rysujNakladke(); rysujWode(); };
+
+// ---------- pasek, wskaźniki, mapa ----------
+function rysujPasek() {
+  const m = stan.misja;
+  $("zegar").textContent = m ? new Date(m.czas).toLocaleTimeString("pl-PL", {hour: "2-digit", minute: "2-digit"}) : "--:--";
+  $("alarm").innerHTML = m && m.alarm ? `🌊 ALARM: ${m.alarm.zrodlo}: <b>${m.alarm.stan_cm} cm</b> (próg ${m.alarm.prog_alarmowy_cm} cm; poziom symulowany)` : "Brak alarmu · kliknij ▶ Start";
+  if (m && m.mozna_latac) { const p = m.mozna_latac; const ik = {zielone: "🟢", zolte: "🟡", czerwone: "🔴"}[p.poziom];
+    $("pogoda").innerHTML = `${ik} Pogoda w scenariuszu: <b>${p.poziom.toUpperCase()}</b> · wiatr ${p.wiatr_ms} m/s, porywy ${p.porywy_ms} m/s · ⚠️ przestrzeń niezweryfikowana`; }
+  else $("pogoda").textContent = "Można latać: —";
+  const lot = stan.loty[0];
+  $("lot").innerHTML = lot ? `🚁 ${m && m.drony ? m.drony.length + " drony · " : ""}${lot.id}: <b>${{propozycja: "propozycja — czeka na zgodę", w_locie: "w locie", zakonczony: "zakończony", odrzucony: "odrzucony"}[lot.status] || lot.status}</b>` +
+    (m ? ` · ${m.etap === "zwiad" ? (m.strategia === "A" ? "zwiad dróg (przegląd wszystkich przy ciekach)" : "zwiad dróg (najpierw odcinki rozstrzygające)") : m.etap}` : "") : "Lot: —";
+  const zgoda = lot && lot.status === "propozycja" && !stan.decyzje.some(d => d.dotyczy === lot.id);
+  if (zmienione("zgoda", [zgoda, lot && lot.id])) $("zgoda").innerHTML = zgoda
+    ? `<button class="tak" onclick="decyzja('${lot.id}','decyzja','zatwierdzona')">Uruchom symulowany lot</button> <button class="nie" onclick="decyzja('${lot.id}','decyzja','odrzucona')">Odrzuć</button>` : "";
+}
+
+function rysujKpi() {
+  const w = stan.wsie, p = stan.misja && stan.misja.postep;
+  $("k-odc").textContent = w.filter(x => x.status === "odcieta").length;
+  $("k-nie").textContent = w.filter(x => x.status === "nieznany").length;
+  $("k-dost").textContent = w.filter(x => x.status === "dostepna").length;
+  $("k-km").textContent = p ? p.km_sprawdzone : 0;
+  $("k-min").textContent = stan.misja ? Math.round(stan.misja.minuta_lotu) : 0;
+  const pr = (p && p.min_do_proc_nieznanych) || {};
+  $("k-proc").textContent = `${pr["50"] ?? "—"} / ${pr["90"] ?? "—"}`;
+}
+
+function rysujMape() {
+  for (const [id, z] of Object.entries(stan.zmiany)) if (warstwyOdc[id] && !warstwyOdc[id]._z) {
+    warstwyOdc[id].setStyle(styl(odcinki[id], z)); warstwyOdc[id]._z = z.stan;
+    if (!odcinki[id].lesny || z.stan !== "przejezdny") warstwyOdc[id].bringToFront();
+  }
+  for (const w of stan.wsie) {
+    const kolor = {dostepna: "#15803d", odcieta: "#c62828", nieznany: "#6b7280"}[w.status];
+    const tekst = `${w.nazwa}: ${STATUS[w.status]}` + (w.status === "odcieta" && w.dojazd.terenowy ? " (terenowy: dojazd)" : "");
+    if (!znacznikiWsi[w.id]) znacznikiWsi[w.id] = L.circleMarker(w.polozenie, {radius: 7, weight: 2, color: "#111", fillOpacity: .95})
+      .addTo(mapa).bindTooltip("", {permanent: false}).on("click", () => { const m = stan.meldunki.find(x => x.wies === w.id); if (m) pokaz(m.id); });
+    if (znacznikiWsi[w.id]._s !== tekst) { znacznikiWsi[w.id].setStyle({fillColor: kolor}).setTooltipContent(tekst); znacznikiWsi[w.id]._s = tekst; }
+  }
+  const m = stan.misja;
+  if (m && m.stacje && !stacje.length) stacje = m.stacje.map(s => L.marker(s.polozenie, {icon: L.divIcon({html: "🏠", className: "", iconSize: [18, 18]})})
+    .addTo(mapa).bindTooltip(`Stacja dokująca: ${s.nazwa} (założenie: remiza OSP)`));
+}
+
+// ---------- drony: strzałka w kierunku lotu, płynny przelot między meldunkami pozycji ----------
+function ikonaDrona(i) {
+  return L.divIcon({className: "dron", iconSize: [30, 30], iconAnchor: [15, 15],
+    html: `<svg viewBox="0 0 34 34" width="30" height="30"><path d="M17 2 L29 30 L17 23 L5 30 Z" fill="${KOLORY_DRONOW[i % 4]}" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/></svg><span>${i + 1}</span>`});
+}
+
+function kurs(a, b) {  // stopnie od północy
+  return (Math.atan2((b[1] - a[1]) * Math.cos(a[0] * Math.PI / 180), b[0] - a[0]) * 180 / Math.PI + 360) % 360;
+}
+
+function rysujDrony() {
+  const m = stan.misja; if (!m || !m.drony) return;
+  const teraz = performance.now();
+  m.drony.forEach((d, i) => {
+    if (!d.polozenie) return;
+    let dr = drony[i];
+    if (!dr) {
+      dr = drony[i] = {marker: L.marker(d.polozenie, {icon: ikonaDrona(i), zIndexOffset: 1000}).addTo(mapa)
+        .bindTooltip(`Dron ${i + 1} ze stacji ${d.stacja} (symulowany przelot)`),
+        z: d.polozenie, do: d.polozenie, t0: teraz, t: 1, kurs: d.kurs || 0, ostatnio: teraz,
+        slad: L.polyline([d.polozenie], {color: KOLORY_DRONOW[i % 4], weight: 2, opacity: .7, dashArray: "4 5", interactive: false}).addTo(slady)};
+      obroc(dr);
+    }
+    if (d.polozenie[0] !== dr.do[0] || d.polozenie[1] !== dr.do[1]) {
+      const gdzie = dr.marker.getLatLng();
+      dr.z = [gdzie.lat, gdzie.lng]; dr.do = d.polozenie; dr.t0 = teraz;
+      dr.t = Math.min(Math.max(teraz - dr.ostatnio, 300), 2500);  // przelot trwa tyle, ile minęło od poprzedniej pozycji
+      dr.ostatnio = teraz;
+      dr.kurs = kurs(dr.z, dr.do); obroc(dr);
+      dr.slad.addLatLng(d.polozenie);
+      const p = dr.slad.getLatLngs(); if (p.length > 40) dr.slad.setLatLngs(p.slice(-40));
+    }
+  });
+}
+
+function obroc(dr) { const el = dr.marker.getElement(); if (el) el.querySelector("svg").style.transform = `rotate(${dr.kurs}deg)`; }
+
+function animujDrony(teraz) {
+  for (const dr of drony) {
+    const f = Math.min(1, (teraz - dr.t0) / dr.t);
+    if (f < 1 || dr._f !== 1) dr.marker.setLatLng([dr.z[0] + (dr.do[0] - dr.z[0]) * f, dr.z[1] + (dr.do[1] - dr.z[1]) * f]);
+    dr._f = f;
+  }
+  requestAnimationFrame(animujDrony);
+}
+
+// ---------- lista meldunków, decyzje ----------
+function decyzjeDla(id) { return stan.decyzje.filter(d => d.dotyczy === id); }
+
+function rysujListe() {
+  const nazwa = Object.fromEntries(stan.wsie.map(w => [w.id, w.nazwa]));
+  $("meldunki").innerHTML = stan.meldunki.map(m => {
+    const dec = decyzjeDla(m.id).filter(d => d.typ === "decyzja").pop();
+    const pot = dec ? decyzjeDla(dec.id).pop() : null;
+    const ocena = m.ocena, termin = m.wymagana_decyzja_do ? ` · decyzja do ${new Date(m.wymagana_decyzja_do).toLocaleTimeString("pl-PL", {hour: "2-digit", minute: "2-digit"})}` : "";
+    return `<div class="m ${m.poziom} ${m.id === wybrany ? "aktywny" : ""}" onclick="pokaz('${m.id}')">
+      <div class="gora"><span class="poziom">${POZIOM[m.poziom]}</span><span class="nazwa">${nazwa[m.wies] || m.wies}</span>
+      <span class="wiek">${wiek(m.czas)}${termin}</span></div>
+      <div class="stat">wóz ciężki: ${STATUS[ocena.status]} · terenowy: ${STATUS[ocena.status_terenowy]}</div>
+      <div class="rek">${m.rekomendacja.dzialanie}</div>
+      ${dec ? `<div class="decyzja ${pot ? "" : "brak"}">Decyzja: <b>${WYNIK[dec.wynik]}</b> (${dec.kto}, ${dec.czas.slice(11, 16)})${dec.zmiana ? " · zmiana: " + dec.zmiana : ""}
+        ${pot ? ` · wykonanie: <b>${WYNIK[pot.wynik]}</b>` : ` · <b>niepotwierdzone wykonanie</b>`}</div>
+        ${pot && pot.wynik === "dotarlo" ? "" : `<div class="przyciski">${["zadysponowano", "w_drodze", "dotarlo", "niewykonane"].map(w =>
+          `<button onclick="event.stopPropagation();decyzja('${dec.id}','potwierdzenie_wykonania','${w}')">${WYNIK[w]}</button>`).join("")}</div>`}`
+        : `<div class="przyciski"><button class="tak" onclick="event.stopPropagation();decyzja('${m.id}','decyzja','zatwierdzona')">Zatwierdź</button>
+           <button onclick="event.stopPropagation();zmien('${m.id}')">Zmień</button>
+           <button class="nie" onclick="event.stopPropagation();decyzja('${m.id}','decyzja','odrzucona')">Odrzuć</button></div>`}
+    </div>`;
+  }).join("") || '<div class="stat">Brak meldunków.</div>';
+  $("nieznane").innerHTML = stan.wsie.filter(w => w.status === "nieznany").map(w => `<span>❓ ${w.nazwa}</span>`).join("") || '<span>—</span>';
+  if (wybrany) pokaz(wybrany, true);
+}
+
+function rysujLog() {
+  $("log").innerHTML = stan.zdarzenia.slice().reverse().map(z => `${z.czas.slice(11, 16)} · ${z.tekst.split("\n")[0]}`).join("<br>");
+}
+
+function pokaz(id, cicho) {
+  const m = stan.meldunki.find(x => x.id === id); if (!m) return;
+  const nowy = wybrany !== id; wybrany = id;
+  const foto = m.fakty.odcinki.map(f => f.obraz).find(Boolean);
+  $("szczegoly").style.display = "block";
+  $("szczegoly").innerHTML = `<b>${m.id}</b> · źródła: ${m.zrodla.slice(0, 8).join(", ")}${m.zrodla.length > 8 ? "…" : ""}\n\n${m.tekst}\n\nPewność oceny: ${m.ocena.pewnosc == null ? "nieoszacowana (symulacja)" : Math.round(m.ocena.pewnosc * 100) + "%"}\nUzasadnienie: ${m.rekomendacja.uzasadnienie.join("; ")}` +
+    (foto ? `<img src="../${foto}" alt="przykładowy obraz FloodNet"><div class="stat">Przykładowa predykcja modelu na obrazie FloodNet. Stan odcinka w demo pochodzi ze scenariusza.</div>` : "");
+  if (nowy && !cicho) {
+    const w = stan.wsie.find(x => x.id === m.wies);
+    if (w) mapa.flyTo(w.polozenie, 13, {duration: .6});
+    for (const oid of m.zrodla) if (warstwyOdc[oid]) warstwyOdc[oid].bringToFront();
+    podpisy.lista = null; rysujListe();
+  }
+}
+
+async function decyzja(dotyczy, typ, wynik, zmiana) {
+  await fetch("/api/decyzja", {method: "POST", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({dotyczy, typ, wynik, zmiana: zmiana || null, kto: $("kto").value})});
+  document.activeElement && document.activeElement.blur();
+  podpisy.lista = podpisy.zgoda = null; odswiez();
+}
+
+function zmien(id) {
+  pokaz(id);
+  setTimeout(() => {
+    const box = [...document.querySelectorAll(".m")].find(x => x.getAttribute("onclick").includes(id)).querySelector(".przyciski");
+    box.innerHTML = `<input class="kto" id="zm-${id}" placeholder="np. wysłać łódź zamiast śmigłowca" onclick="event.stopPropagation()">
+      <button class="tak" onclick="event.stopPropagation();decyzja('${id}','decyzja','zmieniona',document.getElementById('zm-${id}').value)">Zapisz zmianę</button>`;
+    document.getElementById(`zm-${id}`).focus();
+  }, 50);
+}
+
+// ---------- eksport do narzędzi GIS / systemów służb (GeoJSON: [lon, lat]) ----------
+function cechy() {
+  return Object.values(odcinki).map(o => { const z = stan.zmiany[o.id] || {};
+    return {type: "Feature", geometry: {type: "LineString", coordinates: o.geometria.map(([a, b]) => [b, a])},
+      properties: {id: o.id, droga: o.droga, stan: z.stan || o.stan, czas_obserwacji: z.czas_obserwacji || null,
+                   zrodlo: z.zrodlo ? z.zrodlo.typ : (o.zrodlo ? o.zrodlo.typ : null), most: o.most, lesny: o.lesny, symulowane: !!z.symulowane}}; })
+    .concat(stan.wsie.map(w => ({type: "Feature", geometry: {type: "Point", coordinates: [w.polozenie[1], w.polozenie[0]]},
+      properties: {id: w.id, nazwa: w.nazwa, status: w.status, dojazd: w.dojazd, status_czas: w.status_czas}})))
+    .concat(stan.obserwacjeOperatora.map(o => ({type: "Feature", geometry: {type: "Point", coordinates: [o.gps[1], o.gps[0]]},
+      properties: {id: o.id, rodzaj: "obserwacja", typ: o.typ, liczba: o.liczba, operator: o.operator,
+        czas: o.czas_potwierdzenia, obraz: o.obraz, material: o.material, zrodlo: o.zrodlo, potwierdzone: true}})));
+}
+function zapiszPlik(nazwa, tresc, typ) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([tresc], {type: typ})); a.download = nazwa; a.click();
+}
+$("geojson").onclick = () => zapiszPlik("aeropass.geojson", JSON.stringify({type: "FeatureCollection", features: cechy()}), "application/geo+json");
+$("kml").onclick = () => {
+  const kolor = {zalany: "ffeb6325", zerwany: "ff2626dc", zablokowany: "ff2626dc", przejezdny: "ff3d8015", nieznany: "ff80756b"};
+  const pm = cechy().filter(f => f.geometry.type === "LineString" && !(f.properties.lesny && f.properties.stan === "nieznany")).map(f =>
+    `<Placemark><name>${f.properties.droga} ${f.properties.id}: ${f.properties.stan}</name><Style><LineStyle><color>${kolor[f.properties.stan]}</color><width>4</width></LineStyle></Style>` +
+    `<LineString><coordinates>${f.geometry.coordinates.map(c => c.join(",")).join(" ")}</coordinates></LineString></Placemark>`).join("") +
+    cechy().filter(f => f.properties.rodzaj === "obserwacja").map(f =>
+      `<Placemark><name>${htm(typOperatora[f.properties.typ] || f.properties.typ)}</name><description>${htm(f.properties.operator)} · ${htm(f.properties.czas)}</description>` +
+      `<Point><coordinates>${f.geometry.coordinates.join(",")}</coordinates></Point></Placemark>`).join("");
+  zapiszPlik("aeropass.kml", `<?xml version="1.0" encoding="UTF-8"?><kml xmlns="http://www.opengis.net/kml/2.2"><Document><name>AeroPass</name>${pm}</Document></kml>`, "application/vnd.google-earth.kml+xml");
+};
+start();
+</script>
+</body>
+</html>
